@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>LocalStorage Save/Load</title>
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .container {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        width: 320px;
+        text-align: center;
+      }
+
+      input {
+        width: 90%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+      }
+
+      button {
+        padding: 10px 20px;
+        margin: 10px 5px;
+        font-size: 16px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        color: white;
+      }
+
+      #saveBtn {
+        background-color: #27ae60;
+      }
+
+      #loadBtn {
+        background-color: #2980b9;
+      }
+
+      #clearBtn {
+        background-color: #e74c3c;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Save & Load Info</h2>
+      <input type="text" id="name" placeholder="Enter Name" />
+      <input type="number" id="age" placeholder="Enter Age" />
+      <br />
+      <button id="saveBtn" onclick="saveData()">Save</button>
+      <button id="loadBtn" onclick="loadData()">Load</button>
+      <button id="clearBtn" onclick="clearData()">Clear</button>
+    </div>
+
+    <script>
+      function saveData() {
+        const name = document.getElementById("name").value;
+        const age = document.getElementById("age").value;
+
+        // 🔐 Save to localStorage
+        localStorage.setItem("name", name);
+        localStorage.setItem("age", age);
+
+        alert("✅ Data saved to localStorage!");
+      }
+
+      function loadData() {
+        // 📦 Load from localStorage
+        const name = localStorage.getItem("name");
+        const age = localStorage.getItem("age");
+
+        // 🖋️ Fill the textboxes
+        document.getElementById("name").value = name || "";
+        document.getElementById("age").value = age || "";
+
+        alert("📥 Data loaded from localStorage.");
+      }
+
+      function clearData() {
+        // 🗑️ Clear localStorage
+        localStorage.removeItem("name");
+        localStorage.removeItem("age");
+
+        document.getElementById("name").value = "";
+        document.getElementById("age").value = "";
+
+        alert("🧹 Data cleared from localStorage.");
+      }
+    </script>
+  </body>
+</html>

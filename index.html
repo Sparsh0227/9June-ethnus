@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Weather App</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", sans-serif;
+        background-color: #a8d5ba;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+
+      h1 {
+        font-size: 36px;
+        margin-bottom: 20px;
+      }
+
+      .weather-box {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+      }
+
+      .weather-info {
+        font-size: 24px;
+      }
+
+      .search-area {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      input {
+        padding: 10px;
+        border: none;
+        border-bottom: 2px solid white;
+        background: transparent;
+        color: white;
+        font-size: 18px;
+        outline: none;
+      }
+
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        border: 2px solid white;
+        background: white;
+        color: #2c3e50;
+        border-radius: 20px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Weather App</h1>
+    <div class="weather-box">
+      <div class="weather-info" id="display">
+        <div id="temp">-- °C</div>
+        <div id="city">City</div>
+        <div id="time">--:--</div>
+        <div id="day">--</div>
+        <div id="condition">--</div>
+      </div>
+
+      <div class="search-area">
+        <input type="text" id="cityInput" placeholder="Enter city" />
+        <button onclick="getWeather()">Search</button>
+      </div>
+    </div>
+
+    <script>
+      const apiKey = "e8ed5ab7c9cccddce92428842bab8d15";
+
+      function getWeather() {
+        const city = document.getElementById("cityInput").value.trim();
+        if (!city) return alert("Please enter a city");
+
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+        fetch(url)
+          .then((res) => {
+            if (!res.ok) throw new Error("City not found");
+            return res.json();
+          })
+          .then((data) => {
+            document.getElementById("temp").innerText = `${Math.round(
+              data.main.temp
+            )} °C`;
+            document.getElementById("city").innerText = data.name;
+            document.getElementById("condition").innerText =
+              data.weather[0].main;
+
+            const now = new Date();
+            const time = now.toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            });
+            const day = now.toLocaleDateString(undefined, { weekday: "long" });
+
+            document.getElementById("time").innerText = time;
+            document.getElementById("day").innerText = day;
+          })
+          .catch((err) => {
+            alert(err.message);
+          });
+      }
+    </script>
+  </body>
+</html>
